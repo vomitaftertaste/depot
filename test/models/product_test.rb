@@ -51,4 +51,12 @@ class ProductTest < ActiveSupport::TestCase
                           price: 1)
     assert product.invalid?
   end
+
+  test "maximum lenght of title product is 10" do
+    product = Product.new(title: "1234567891011121314151617181920",
+                          description: "yyy",
+                          image_url: 'fred.gif',
+                          price: 1)
+    assert product.invalid?
+  end
 end
