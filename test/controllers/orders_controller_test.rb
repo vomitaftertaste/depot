@@ -13,7 +13,7 @@ class OrdersControllerTest < ActionController::TestCase
 
   test "should get new" do
     get :new
-    assert_response :success
+    assert_redirected_to store_url
   end
 
   test "should create order" do
@@ -53,7 +53,7 @@ class OrdersControllerTest < ActionController::TestCase
     assert_equal flash[:notice], 'Your cart is empty'
   end
 
-  test "should get new" do
+  test "should get new cart" do
     item = LineItem.new
     item.build_cart
     item.product = products(:ruby)
