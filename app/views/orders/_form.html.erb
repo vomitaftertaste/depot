@@ -28,6 +28,10 @@
     <%= f.select :pay_type, Order::PAYMENT_TYPES,
                  prompt: 'Select a payment method' %>
   </div>
+  <div class="field">
+    <%= f.label :ship_date %><br>
+    <%= f.date_field :ship_date %>
+  </div>
   <div class="actions">
     <%= f.submit 'Place order' %>
   </div>
