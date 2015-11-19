@@ -18,6 +18,12 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
+  <% if params[:action] == "edit" %>
+  <div class="field">
+    <%= f.label :current_password %><br>
+    <%= f.password_field :current_password %>
+  </div>
+  <% end %>
   <div class="field">
     <%= f.label :password %><br>
     <%= f.password_field :password %>
