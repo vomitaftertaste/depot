@@ -1,7 +1,30 @@
 require 'test_helper'
 
 class UserStoriesTest < ActionDispatch::IntegrationTest
-  fixtures :products
+  fixtures :products, :orders
+
+  test "changing ship date" do
+    get "/orders/2/edit"
+    assert_response :success
+    assert_template "edit"
+
+    put_via_redirect "/orders/2",
+                      order: {
+                          name: "Haidar M",
+                          address: "123 The Street",
+                          email: "haidar.muhammad@gmail.com",
+                          pay_type: "Check",
+                          ship_date: Date.strptime('2015-06-23','%Y-%m-%d')
+                      }
+    assert_response :success
+    assert_select '#notice', 'Your order is updated.'
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal  ["haidar.muhammad@gmail.com"], mail.to
+    assert_equal  "Haidar Muhammad <haidar@haidar.com>", mail[:from].value
+    assert_equal  "Pragmatic Store Order Shipped", mail.subject
+
+  end
 
   test "buying a product" do
     LineItem.delete_all
@@ -27,7 +50,8 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
             name: "Dave Thomas",
             address: "123 The Street",
             email: "dave@example.com",
-            pay_type: "Check"
+            pay_type: "Check",
+            ship_date: Date.strptime('2015-11-20','%Y-%m-%d')
         }
     assert_response :success
     assert_template "index"
